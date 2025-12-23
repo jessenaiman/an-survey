@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
 import { getMarkdownContent } from "@/lib/markdown";
-import ReactMarkdown from "react-markdown";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 
 export default async function ProductListPage() {
     const productCategories = siteConfig.mainNav.find(item => item.title === "Product List")?.items || [];

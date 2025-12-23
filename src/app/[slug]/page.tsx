@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 
 interface PageProps {
     params: Promise<{
@@ -43,20 +43,8 @@ export default async function Page({ params }: PageProps) {
                 <h1 className="text-4xl font-heading font-bold mb-6">{title}</h1>
 
                 {mdData ? (
-                    <div className="mb-8 prose prose-slate max-w-none prose-img:rounded-lg prose-headings:font-heading">
-                        <ReactMarkdown
-                            components={{
-                                a: ({ node, ...props }) => {
-                                    return <a {...props} className="text-blue-600 hover:underline" />
-                                },
-                                img: ({ node, ...props }) => (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img {...props} className="max-w-full h-auto rounded border my-4" style={{ maxHeight: '400px' }} alt={props.alt || ''} />
-                                )
-                            }}
-                        >
-                            {mdData.content}
-                        </ReactMarkdown>
+                    <div className="mb-8">
+                        <MarkdownRenderer content={mdData.content} />
                     </div>
                 ) : (
                     <Card className="mb-8 bg-muted/20">
