@@ -19,12 +19,8 @@ export default async function ContactPage() {
                 <div className="space-y-8">
                     {/* Render Markdown Content if available */}
                     {mdData ? (
-                        <div className="prose prose-slate max-w-none">
-                            <ReactMarkdown components={{
-                                a: ({ node, ...props }) => <a {...props} className="text-blue-600 hover:underline" />
-                            }}>
-                                {mdData.content}
-                            </ReactMarkdown>
+                        <div>
+                            <MarkdownRenderer content={mdData.content} />
                         </div>
                     ) : (
                         <Card>

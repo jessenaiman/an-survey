@@ -44,21 +44,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <h1 className="text-4xl font-heading font-bold mb-6">{title}</h1>
 
                 {mdData ? (
-                    <div className="mb-8 prose prose-slate max-w-none prose-img:rounded-lg prose-headings:font-heading">
-                        <ReactMarkdown
-                            components={{
-                                // Custom renderer for links to keep them internal if possible
-                                a: ({ node, ...props }) => {
-                                    return <a {...props} className="text-blue-600 hover:underline" />
-                                },
-                                img: ({ node, ...props }) => (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img {...props} className="max-w-full h-auto rounded border my-4" style={{ maxHeight: '400px' }} alt={props.alt || ''} />
-                                )
-                            }}
-                        >
-                            {mdData.content}
-                        </ReactMarkdown>
+                    <div className="mb-8">
+                        <MarkdownRenderer content={mdData.content} />
                     </div>
                 ) : (
                     <Card className="mb-8 bg-muted/20">

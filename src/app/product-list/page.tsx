@@ -15,14 +15,8 @@ export default async function ProductListPage() {
             <h1 className="text-4xl font-heading font-bold mb-8">{mdData?.frontmatter?.title || "Product List"}</h1>
 
             {mdData ? (
-                <div className="mb-12 prose prose-slate max-w-none prose-img:rounded-lg prose-headings:font-heading">
-                    <ReactMarkdown
-                        components={{
-                            a: ({ node, ...props }) => <a {...props} className="text-blue-600 hover:underline" />,
-                        }}
-                    >
-                        {mdData.content}
-                    </ReactMarkdown>
+                <div className="mb-12">
+                    <MarkdownRenderer content={mdData.content} />
                 </div>
             ) : (
                 <p className="text-lg text-muted-foreground mb-12 max-w-2xl">

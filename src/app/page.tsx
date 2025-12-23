@@ -35,18 +35,8 @@ export default async function Home() {
       {/* Intro / Value Prop */}
       <section className="container px-4">
         {mdData ? (
-          <div className="max-w-4xl mx-auto prose prose-slate prose-headings:font-heading prose-a:text-blue-600 prose-img:rounded-lg">
-            <ReactMarkdown
-              components={{
-                a: ({ node, ...props }) => <a {...props} className="text-blue-600 hover:underline" />,
-                img: ({ node, ...props }) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img {...props} className="max-w-full h-auto rounded border my-4" style={{ maxHeight: '400px' }} alt={props.alt || ''} />
-                )
-              }}
-            >
-              {mdData.content}
-            </ReactMarkdown>
+          <div className="max-w-4xl mx-auto">
+            <MarkdownRenderer content={mdData.content} />
           </div>
         ) : (
           <div className="max-w-4xl mx-auto text-center space-y-4">
