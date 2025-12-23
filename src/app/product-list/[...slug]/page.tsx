@@ -1,41 +1,15 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import ReactMarkdown from "react-markdown";
+import { getMarkdownContent } from "@/lib/markdown";
 import { siteConfig } from "@/config/site";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 
 interface ProductPageProps {
     params: Promise<{
         slug: string[];
     }>;
-}
-
-// Helper to determine the file path from the slug
-async function getMarkdownContent(slug: string) {
-    const contentDir = path.join(process.cwd(), "src", "content");
-
-    // Try exact match first
-    let targetFile = path.join(contentDir, `${slug}.md`);
-
-    if (!fs.existsSync(targetFile)) {
-        // Try with '1' suffix as seen in some legacy files (e.g. topcon-laser-levels1.html)
-        const suffixFile = path.join(contentDir, `${slug}1.md`);
-        if (fs.existsSync(suffixFile)) {
-            targetFile = suffixFile;
-        } else {
-            // Try removing plural 's' or other simple heuristics if needed?
-            // For now, return null
-            return null;
-        }
-    }
-
-    const fileContent = fs.readFileSync(targetFile, "utf-8");
-    const { data, content } = matter(fileContent);
-    return { frontmatter: data, content };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -71,16 +45,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 {mdData ? (
                     <div className="mb-8 prose prose-slate max-w-none prose-img:rounded-lg prose-headings:font-heading">
-                        {/* If description exists in frontmatter but not in body, show it?
-                 Usually body has it all. */}
                         <ReactMarkdown
                             components={{
                                 // Custom renderer for links to keep them internal if possible
                                 a: ({ node, ...props }) => {
-                                    const href = props.href || "";
-                                    // If it points to .html file, try to map it to our route structure?
-                                    // This is hard without global map. 
-                                    // For now let's clean up .html extensions in display at least
                                     return <a {...props} className="text-blue-600 hover:underline" />
                                 },
                                 img: ({ node, ...props }) => (

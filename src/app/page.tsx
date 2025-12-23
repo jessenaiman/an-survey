@@ -2,8 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import { getMarkdownContent } from "@/lib/markdown";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 
-export default function Home() {
+export default async function Home() {
+  const mdData = await getMarkdownContent("index");
+
   return (
     <div className="flex flex-col gap-12 pb-10">
       {/* Hero Section */}
@@ -30,14 +34,30 @@ export default function Home() {
 
       {/* Intro / Value Prop */}
       <section className="container px-4">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <h2 className="text-3xl font-heading font-bold text-slate-800">Quality Equipment & Expert Service</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Whether you work in construction, survey engineering, manufacturing, or road building,
-            we provide quick efficient service and competitive pricing on new products.
-            Located in Aurora, ON, serving the GTA and beyond.
-          </p>
-        </div>
+        {mdData ? (
+          <div className="max-w-4xl mx-auto prose prose-slate prose-headings:font-heading prose-a:text-blue-600 prose-img:rounded-lg">
+            <ReactMarkdown
+              components={{
+                a: ({ node, ...props }) => <a {...props} className="text-blue-600 hover:underline" />,
+                img: ({ node, ...props }) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img {...props} className="max-w-full h-auto rounded border my-4" style={{ maxHeight: '400px' }} alt={props.alt || ''} />
+                )
+              }}
+            >
+              {mdData.content}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto text-center space-y-4">
+            <h2 className="text-3xl font-heading font-bold text-slate-800">Quality Equipment & Expert Service</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Whether you work in construction, survey engineering, manufacturing, or road building,
+              we provide quick efficient service and competitive pricing on new products.
+              Located in Aurora, ON, serving the GTA and beyond.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Featured Products Grid */}
