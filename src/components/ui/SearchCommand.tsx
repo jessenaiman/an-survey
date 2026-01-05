@@ -44,7 +44,8 @@ export function SearchCommand({ items, open, onOpenChange }: SearchCommandProps)
             result = result.filter(item =>
                 item.title.toLowerCase().includes(lowerQuery) ||
                 item.brand.toLowerCase().includes(lowerQuery) ||
-                item.type.toLowerCase().includes(lowerQuery)
+                item.type.toLowerCase().includes(lowerQuery) ||
+                (item.tags && Array.isArray(item.tags) && item.tags.some((tag: string) => tag.toLowerCase().includes(lowerQuery)))
             );
         }
         return result;

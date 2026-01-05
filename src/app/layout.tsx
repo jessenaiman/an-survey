@@ -6,7 +6,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { getAllContent } from "@/lib/markdown";
 import { ThemeProvider } from "@/components/theme-provider"
-import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern"
 
 const fontHeading = Outfit({
   subsets: ["latin"],
@@ -46,7 +45,6 @@ export default async function RootLayout({
           fontBody.variable
         )}
       >
-        <AnimatedGridPattern />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

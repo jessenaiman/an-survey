@@ -46,7 +46,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-12 flex justify-center">
-            <div className="max-w-4xl w-full bg-background border rounded-xl shadow-xl p-8 md:p-12 relative overflow-hidden">
+            <div className="max-w-4xl w-full bg-card border rounded-xl shadow-xl p-8 md:p-12 relative overflow-hidden">
                 {/* Visual paper texture effect */}
                 <div className="absolute inset-0 bg-zinc-50/50 dark:bg-zinc-900/50 pointer-events-none" />
                 <div className="relative z-10">

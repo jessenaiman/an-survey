@@ -9,31 +9,32 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-12 pb-10">
       {/* Hero Section */}
-      <section className="relative h-[600px] w-full overflow-hidden bg-slate-900 text-white flex items-center justify-center">
-        {/* Background overlay/image could go here */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 opacity-90 z-0"></div>
-        <div className="container relative z-10 px-4 text-center">
-          <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-            A.N. Survey Instrument
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl mx-auto font-light">
-            Sales, Service, and Repair of Surveying Instruments Since 1992.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8" asChild>
+      <section className="relative min-h-[60vh] w-full overflow-hidden bg-background text-foreground flex items-center justify-center py-20 border-b">
+        {/* Soft Background Accents */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-50">
+          <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[100px]"></div>
+          <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-indigo-500/5 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div className="container relative z-10 px-4 text-center flex flex-col items-center max-w-5xl mx-auto">
+          <div>
+            <h1 className="font-heading text-5xl md:text-8xl font-black mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60 leading-tight">
+              A.N. Survey Instrument
+            </h1>
+          </div>
+
+          <div className="prose prose-lg dark:prose-invert max-w-3xl mx-auto mb-12 text-muted-foreground dark:text-slate-300 leading-relaxed text-center">
+            <IndexContent />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-10 h-14 text-lg shadow-xl shadow-blue-500/25 rounded-full transition-all hover:scale-105 active:scale-95" asChild>
               <Link href="/product-list">View Products</Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-slate-900 px-8" asChild>
+            <Button size="lg" variant="outline" className="text-foreground dark:text-white border-border bg-background/50 hover:bg-muted dark:bg-white/5 dark:hover:bg-white/10 px-10 h-14 text-lg backdrop-blur-md rounded-full transition-all hover:scale-105 active:scale-95" asChild>
               <Link href="/service">Service & Repair</Link>
             </Button>
           </div>
-        </div>
-      </section>
-
-      {/* Intro / Value Prop */}
-      <section className="max-w-7xl mx-auto px-4">
-        <div className="max-w-4xl mx-auto prose prose-zinc dark:prose-invert max-w-none">
-          <IndexContent />
         </div>
       </section>
 
@@ -87,7 +88,7 @@ export default async function Home() {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             We offer pick-up and delivery in the GTA. Get your equipment serviced by experts.
           </p>
-          <Button size="lg" className="bg-slate-900 text-white" asChild>
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-10 h-14 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20" asChild>
             <Link href="/contact">Contact Us Today</Link>
           </Button>
         </div>
