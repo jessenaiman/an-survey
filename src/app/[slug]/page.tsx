@@ -1,10 +1,10 @@
-import { getMarkdownContent } from "@/lib/markdown";
+import { getMarkdownContent, getAllContent } from "@/lib/markdown";
 import { siteConfig } from "@/config/site";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MarkdownRenderer } from "@/components/markdown-renderer";
+import dynamic from "next/dynamic";
 
 interface PageProps {
     params: Promise<{
@@ -16,6 +16,13 @@ export default async function Page({ params }: PageProps) {
     const resolvedParams = await params;
     const slug = resolvedParams.slug;
     const mdData = await getMarkdownContent(slug);
+
+    let Content;
+    try {
+        Content = dynamic(() => import(`@/content/${slug}.mdx`));
+    } catch (e) {
+        console.error(`Error loading MDX content for ${slug}`, e);
+    }
 
     // Find nav item for breadcrumbs/title context if available
     const findItemByHref = (items: any[], href: string): any => {
@@ -38,44 +45,48 @@ export default async function Page({ params }: PageProps) {
     }
 
     return (
-        <div className="container py-12 px-4">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-heading font-bold mb-6">{title}</h1>
+        <div className="max-w-7xl mx-auto px-4 py-12 flex justify-center">
+            <div className="max-w-4xl w-full bg-background border rounded-xl shadow-xl p-8 md:p-12 relative overflow-hidden">
+                {/* Visual paper texture effect */}
+                <div className="absolute inset-0 bg-zinc-50/50 dark:bg-zinc-900/50 pointer-events-none" />
+                <div className="relative z-10">
+                    <h1 className="text-4xl font-heading font-bold mb-6">{title}</h1>
 
-                {mdData ? (
-                    <div className="mb-8">
-                        <MarkdownRenderer content={mdData.content} />
-                    </div>
-                ) : (
-                    <Card className="mb-8 bg-muted/20">
-                        <CardHeader>
-                            <CardTitle>Content Under Construction</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground text-lg leading-relaxed">
-                                We are currently migrating the content for this page.
-                            </p>
-                        </CardContent>
-                    </Card>
-                )}
-
-                {/* If we found a nav item and it has children, render them */}
-                {navItem?.items && (
-                    <div className="mt-12 pt-8 border-t">
-                        <h2 className="text-2xl font-bold mb-6">Related Categories</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {navItem.items.map((sub: any) => (
-                                <Button key={sub.href} variant="outline" className="h-auto py-4 px-6 justify-start" asChild>
-                                    <Link href={sub.href}>
-                                        <div className="text-left">
-                                            <div className="font-semibold">{sub.title}</div>
-                                        </div>
-                                    </Link>
-                                </Button>
-                            ))}
+                    {Content ? (
+                        <div className="mb-8 prose prose-zinc dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-blue-600 prose-img:rounded-lg">
+                            <Content />
                         </div>
-                    </div>
-                )}
+                    ) : (
+                        <Card className="mb-8 bg-muted/20">
+                            <CardHeader>
+                                <CardTitle>Content Under Construction</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground text-lg leading-relaxed">
+                                    We are currently migrating the content for this page.
+                                </p>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {/* If we found a nav item and it has children, render them */}
+                    {navItem?.items && (
+                        <div className="mt-12 pt-8 border-t">
+                            <h2 className="text-2xl font-bold mb-6">Related Categories</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {navItem.items.map((sub: any) => (
+                                    <Button key={sub.href} variant="outline" className="h-auto py-4 px-6 justify-start" asChild>
+                                        <Link href={sub.href}>
+                                            <div className="text-left">
+                                                <div className="font-semibold">{sub.title}</div>
+                                            </div>
+                                        </Link>
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

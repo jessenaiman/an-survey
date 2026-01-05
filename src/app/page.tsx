@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import Image from "next/image";
-import { getMarkdownContent } from "@/lib/markdown";
-import { MarkdownRenderer } from "@/components/markdown-renderer";
+import dynamic from "next/dynamic";
+const IndexContent = dynamic(() => import("@/content/index.mdx"));
 
 export default async function Home() {
-  const mdData = await getMarkdownContent("index");
 
   return (
     <div className="flex flex-col gap-12 pb-10">
@@ -33,25 +31,14 @@ export default async function Home() {
       </section>
 
       {/* Intro / Value Prop */}
-      <section className="container px-4">
-        {mdData ? (
-          <div className="max-w-4xl mx-auto">
-            <MarkdownRenderer content={mdData.content} />
-          </div>
-        ) : (
-          <div className="max-w-4xl mx-auto text-center space-y-4">
-            <h2 className="text-3xl font-heading font-bold text-slate-800">Quality Equipment & Expert Service</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Whether you work in construction, survey engineering, manufacturing, or road building,
-              we provide quick efficient service and competitive pricing on new products.
-              Located in Aurora, ON, serving the GTA and beyond.
-            </p>
-          </div>
-        )}
+      <section className="max-w-7xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto prose prose-zinc dark:prose-invert max-w-none">
+          <IndexContent />
+        </div>
       </section>
 
       {/* Featured Products Grid */}
-      <section className="container px-4">
+      <section className="max-w-7xl mx-auto px-4">
         <h3 className="text-2xl font-bold mb-8 border-b pb-2">Featured Categories</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CategoryCard
@@ -94,8 +81,8 @@ export default async function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-slate-50 py-16">
-        <div className="container px-4 text-center">
+      <section className="bg-muted py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Need Calibration or Repair?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             We offer pick-up and delivery in the GTA. Get your equipment serviced by experts.
