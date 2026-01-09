@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, Menu, X, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchCommand } from "@/components/ui/SearchCommand";
@@ -47,8 +48,13 @@ export function Navbar({ searchItems }: NavbarProps) {
             >
                 <div className="max-w-7xl mx-auto px-4 w-full flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:shadow-blue-500/25 transition-all">
-                            AN
+                        <div className="relative h-10 w-10 overflow-hidden rounded-lg shadow-lg group-hover:shadow-blue-500/25 transition-all">
+                            <Image
+                                src="/logo.png"
+                                alt="A.N. Survey Logo"
+                                fill
+                                className="object-cover bg-white p-1"
+                            />
                         </div>
                         <div className="flex flex-col">
                             <span className="font-bold text-lg leading-tight tracking-tight text-foreground transition-colors">
@@ -81,9 +87,9 @@ export function Navbar({ searchItems }: NavbarProps) {
                             <a href="tel:905-841-0119" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
                                 <Phone className="w-3.5 h-3.5" /> 905-841-0119
                             </a>
-                            <a href="/contact" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+                            <Link href="/contact" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
                                 <Mail className="w-3.5 h-3.5" /> Email Us
-                            </a>
+                            </Link>
                         </div>
 
                         <button

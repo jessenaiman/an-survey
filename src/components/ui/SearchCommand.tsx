@@ -12,6 +12,7 @@ interface SearchItem {
     title: string;
     brand: string;
     type: string;
+    tags?: string[];
     [key: string]: any;
 }
 
@@ -164,6 +165,15 @@ export function SearchCommand({ items, open, onOpenChange }: SearchCommandProps)
                                                 <span>•</span>
                                                 <span>{item.type}</span>
                                             </div>
+                                            {item.tags && item.tags.length > 0 && (
+                                                <div className="flex flex-wrap gap-1 mt-1.5 grayscale opacity-70">
+                                                    {item.tags.slice(0, 4).map((tag: string) => (
+                                                        <span key={tag} className="text-[10px] px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-500 border border-zinc-200 dark:border-zinc-700">
+                                                            #{tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                         <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-aria-selected:opacity-100 group-aria-selected:translate-x-0 transition-all duration-200" />
                                     </Command.Item>
